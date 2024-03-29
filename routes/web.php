@@ -7,7 +7,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Broadcasting\Broadcasters\PusherBroadcaster;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,19 +38,19 @@ Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->midd
 Route::get('/admin/dashboard/kyc', [AdminController::class, 'kycDashboard'])->middleware(['auth', 'verified'])->name('admin.kyc');
 Route::post('/admin/dashboard/kyc/{user_id}', [AdminController::class, 'kycVerify'])->middleware(['auth', 'verified'])->name('admin.kycVerify');
 Route::get('/admin/chat', [AdminController::class, 'chat'])->middleware(['auth', 'verified'])->name('admin.chat');
-Route::post('/admin/chat/send', function (Request $request){
-    broadcast(new PusherEvent($request->get('message')))->toOthers();
 
-   /*  event(new PusherEvent(request()->all()));
-    return redirect('/admin/chat'); */
+Route::post('/admin/chat/send', function (Request $request){
+    $message = $request->get('message');
+
+    broadcast(new PusherEvent($message))->toOthers();
+
+    return view('admin.chat', compact('message'));
 });
 Route::post('/admin/chat/receive', function (Request $request){
 
     $message = $request->get('message');
-
-
-   /*  event(new PusherEvent(request()->all()));
-    return redirect('/admin/chat'); */
+    
+    return view('admin.chat', compact('message'));
 });
 /* ADMIN  */
 

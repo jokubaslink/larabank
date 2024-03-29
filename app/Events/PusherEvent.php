@@ -24,13 +24,13 @@ class PusherEvent implements ShouldBroadcast
   
     public function broadcastOn()
     {
-        return ['admin-event-5'];
+        return ['channel'];
     }
   
     public function broadcastAs()
     {
         $userId = Auth::user()->id;
 
-        return 'event-5';
+        return 'event';
     }
 }
