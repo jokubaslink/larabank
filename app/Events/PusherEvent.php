@@ -31,6 +31,6 @@ class PusherEvent implements ShouldBroadcast
     {
         $userId = Auth::user()->id;
 
-        return 'event';
+        return 'event-'.$userId;
     }
 }
