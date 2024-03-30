@@ -52,6 +52,29 @@ class AdminController extends Controller
 
     public function chat()
     {
-        return view('admin.chat');
+        $user_ids = User::pluck('id')->toArray();
+        $admin_id = User::where('name', "admin")->first()->id;
+
+        $ids = array_diff($user_ids, [$admin_id]);
+
+        $count = count($ids);
+
+
+        $id = "-1";
+        // nereikalingas 100% variable, nu pasirenkamasis
+
+        return view('admin.chat', compact('id', 'ids', 'count'));
+    }
+
+    public function chatWindow($id)
+    {
+        $user_ids = User::pluck('id')->toArray();
+        $admin_id = User::where('name', "admin")->first()->id;
+
+        $ids = array_diff($user_ids, [$admin_id]);
+
+        $count = count($ids);
+
+        return view('admin.chat', compact('id', 'ids', 'count'));
     }
 }

@@ -4,6 +4,7 @@ use App\Events\PusherEvent;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Broadcasting\Broadcasters\PusherBroadcaster;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
@@ -39,18 +40,34 @@ Route::get('/admin/dashboard/kyc', [AdminController::class, 'kycDashboard'])->mi
 Route::post('/admin/dashboard/kyc/{user_id}', [AdminController::class, 'kycVerify'])->middleware(['auth', 'verified'])->name('admin.kycVerify');
 Route::get('/admin/chat', [AdminController::class, 'chat'])->middleware(['auth', 'verified'])->name('admin.chat');
 
-Route::post('/admin/chat/send', function (Request $request){
+Route::get('/admin/chat/{id}', [AdminController::class, 'chatWindow'])->middleware(['auth', 'verified'])->name('admin.chatWindow');
+
+Route::post('/admin/chat/send', function (Request $request) {
+    $user_ids = User::pluck('id')->toArray();
+    $admin_id = User::where('name', "admin")->first()->id;
+
+    $ids = array_diff($user_ids, [$admin_id]);
+
+    $count = count($ids);
+
     $message = $request->get('message');
+    $id = $request->get('id');
 
     broadcast(new PusherEvent($message))->toOthers();
 
-    return view('admin.chat', compact('message'));
+    return view('admin.chat', compact('id', 'message', 'ids', 'count'));
 });
-Route::post('/admin/chat/receive', function (Request $request){
+Route::post('/admin/chat/receive', function (Request $request) {
+    $user_ids = User::pluck('id')->toArray();
+    $admin_id = User::where('name', "admin")->first()->id;
+
+    $ids = array_diff($user_ids, [$admin_id]);
+
+    $count = count($ids);
 
     $message = $request->get('message');
-    
-    return view('admin.chat', compact('message'));
+
+    return view('admin.chat', compact('message', 'ids', 'count'));
 });
 /* ADMIN  */
 
