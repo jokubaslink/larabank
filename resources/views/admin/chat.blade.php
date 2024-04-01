@@ -7,7 +7,7 @@
 
             @foreach ($ids as $selectionId)
                 <a href="{{ route('admin.chatWindow', $selectionId) }}">
-                    <div class="border-2 border-black p-2 h-[80px] w-full eventSelector-{{ $selectionId }}"
+                    <div class="border-2 border-black p-2 h-[80px] w-full messageSelector-{{ $selectionId }}"
                         onclick="selectEvent({{ $selectionId }})">Event
                         {{ $selectionId }}</div>
                 </a>
@@ -15,7 +15,7 @@
         </div>
         <div class="relative w-3/4 h-full">
             @if ($id !== '-1')
-                <div class="chatting event-{{ $id }}">
+                <div class="chatting message-{{ $id }}">
                     chat su {{ $id }}
                 </div>
             @else
@@ -27,7 +27,7 @@
             <div class="w-full absolute bottom-0 flex gap-2">
 
                 <input id="message" type="text" placeholder="enter meessage" name="message">
-                <input type="text" hidden value="{{$id}}" name="id">
+                <input class="to_id" type="text" hidden value="{{ $id }}" name="id">
                 <button id="send-button">Send message</button>
 
             </div>
@@ -65,26 +65,36 @@
             cluster: 'eu'
         });
 
-        var channel = pusher.subscribe('channel');
+        /* var channel = pusher.subscribe('channel'); */
 
         const textWindow = document.querySelector('.chatting');
         const messageValue = document.querySelector("#message").value;
         const submitButton = document.querySelector('#send-button');
 
         const allIds = Object.values(@json($ids));
-    
-        let eventName;
-        // Message receive:
+
+        var channel = pusher.subscribe('channel');
+        const userid = "{{ Auth::user()->id }}";
+
+       /*  const to_id = document.querySelector('.to_id'); */
+
+        let messageIndentificator;
+        let sendToId;
+        // Adminas prisijungia prie visu channeliu? ir gauna messagus is visur?
         allIds.forEach((id, i) => {
-            eventName = 'event-' + id;
-            const eventState = textWindow.classList.contains(eventName);
-            channel.bind(eventName, function(data) {
-                if (eventState) {
+            /*  const channelName = 'channel-'+id; */
+
+            messageIndentificator = 'message-' + id;
+            const indState = textWindow.classList.contains(messageIndentificator);
+            if(indState) sendToId = id;
+            channel.bind(messageIndentificator, function(data) {
+                if (indState) {
+                    const {text, from_id, to_id} = data.message;
                     const textMessage = document.createElement("p");
-                    textMessage.innerText = data.message;
+                    textMessage.innerText = text;
                     textWindow.appendChild(textMessage);
                 } else {
-                    const selectorClass = '.eventSelector-' + id;
+                    const selectorClass = '.messageSelector-' + id;
                     const selector = document.querySelector(selectorClass);
                     selector.classList.add('bg-red-400');
                 }
@@ -92,26 +102,24 @@
 
         })
 
-
         // Message send
         submitButton.addEventListener('click', (e) => {
             e.preventDefault();
             const inputValue = document.querySelector("#message").value;
             const url = "/admin/chat/send";
-
-            console.log('ADMIN 1')
             axios.post(url, {
                 _token: '{{ csrf_token() }}',
-                message: document.querySelector("#message").value,
-               
+                message: {
+                    text: document.querySelector("#message").value,
+                    from_id: userid,
+                    to_id: sendToId,
+                }
             }, {
                 headers: {
                     'X-Socket-Id': pusher.connection.socket_id,
                     "Content-Type": "application/json"
                 }
             }).then((res) => {
-                console.log('ADMIN 2')
-                console.log('GAUNAM RESPONSA')
                 const textMessage = document.createElement("p");
                 textMessage.innerText = inputValue;
                 textWindow.appendChild(textMessage);
@@ -120,10 +128,6 @@
                 console.error('rags:', err);
             })
         })
-
-    
-
-
     </script>
 
 </x-admin-layout>

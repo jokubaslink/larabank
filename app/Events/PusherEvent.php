@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -16,21 +17,25 @@ class PusherEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
-  
+
     public function __construct($message)
     {
         $this->message = $message;
     }
-  
+
+/*     public function broadcastWith(){
+        return ['messageData' => $this->messageData];
+    } */
+
     public function broadcastOn()
     {
         return ['channel'];
     }
-  
+
     public function broadcastAs()
     {
         $userId = Auth::user()->id;
 
-        return 'event-'.$userId;
+        return 'message-'.$userId;
     }
 }

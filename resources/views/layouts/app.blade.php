@@ -11,7 +11,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../../css/output.css">
+    {{--     <link rel="stylesheet" href="../../css/output.css"> --}}
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -76,11 +76,22 @@
     const userid = "{{ Auth::user()->id }}";
     const textWindow = document.querySelector('.chatBox');
 
-    /* bindinam tik prie savo user id evento!! b ar admin? */
-    channel.bind('event-4', function(data) {
-        const textMessage = document.createElement("p");
-        textMessage.innerText = data.message;
-        textWindow.appendChild(textMessage);
+    // LOCAL TEST CODE
+    /*    channel.bind('message-' + userid, function(data) {
+           const textMessage = document.createElement("p");
+           textMessage.innerText = data.message;
+           textWindow.appendChild(textMessage);
+       }); */
+    /* bindinam tik prie savo user id evento jei local, prod: admin*/
+    const ADMIN_USER_ID = 4;
+    channel.bind('message-' + ADMIN_USER_ID, function(data) {
+        const {text, from_id, to_id} = data.message;
+        console.log('gauname', from_id, to_id, userid)
+        if(from_id == ADMIN_USER_ID && to_id == userid){
+            const textMessage = document.createElement("p");
+            textMessage.innerText = text;
+            textWindow.appendChild(textMessage);
+        }
     });
 
     const messageValue = document.querySelector("#message").value;
@@ -92,18 +103,23 @@
         console.log('1')
         axios.post("/admin/chat/send", {
             _token: '{{ csrf_token() }}',
-            message: document.querySelector("#message").value
+            message: {
+                text: document.querySelector("#message").value,
+                from_id: userid,
+                to_id: '4'
+            }
         }, {
             headers: {
                 'X-Socket-Id': pusher.connection.socket_id
             }
         }).then((res) => {
-            console.log('2')
+            console.log(res)
             const textMessage = document.createElement("p");
             textMessage.innerText = inputValue;
             textWindow.appendChild(textMessage);
         }).catch((err) => {
-            console.error('nigga', err)
+            // nudazyti teksta pilkai parodyti errora, o paclickinus iskarto ideti teksta zinai uzer fedback gersnis.
+            console.error('er', err)
         })
     })
 

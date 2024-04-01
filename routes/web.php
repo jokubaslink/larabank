@@ -51,6 +51,7 @@ Route::post('/admin/chat/send', function (Request $request) {
     $count = count($ids);
 
     $message = $request->get('message');
+
     $id = $request->get('id');
 
     broadcast(new PusherEvent($message))->toOthers();
