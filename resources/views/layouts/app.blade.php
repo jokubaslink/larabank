@@ -35,17 +35,19 @@
         </main>
         <div class="absolute right-20 bottom-10 flex flex-col items-end justify-center ">
             <div
-                class="chatWindow hidden bg-red-300 border-red-500 rounded-md border-2 chatWindow p-1 w-[300px] h-[360px] flex-col">
+                class="chatWindow hidden bg-red-300 border-red-500 rounded-md border-2  p-1 w-[300px] h-[360px] flex-col">
                 <button class="w-[20px] border-2 border-black rounded-full" onclick="closeWindow()">X</button>
-                <div class="flex flex-col items-center justify-center gap-2">
-                    <h3>Ask our admins a question</h3>
-
-                    <div class="w-[80%] h-[205px] chatBox border-2 border-black p-1">
+                <div class="h-full relative">
+                    <div class="chatBox p-1">
+                        <h3 class="text-center chatBox-title mb-5">Ask our admins a question</h3>
 
                     </div>
 
-                    <input id="message" name="message" type="text" placeholder="Type in your message">
-                    <button id="send-button">Send message</button>
+                    <div class="absolute bottom-0 flex gap-2">
+                        <input id="message" name="message" type="text" placeholder="Type in your message">
+                        <button class="border-2 border-black rounded-full p-2 h-[40px] w-[40px] text-center"
+                            id="send-button">+</button>
+                    </div>
 
                 </div>
             </div>
@@ -74,7 +76,7 @@
     var channel = pusher.subscribe('channel');
 
     const userid = "{{ Auth::user()->id }}";
-    const textWindow = document.querySelector('.chatBox');
+    const textWindow = document.querySelector('.chatBox-title');
 
     // LOCAL TEST CODE
     /*    channel.bind('message-' + userid, function(data) {
@@ -94,7 +96,10 @@
         if (from_id == ADMIN_USER_ID && to_id == userid) {
             const textMessage = document.createElement("p");
             textMessage.innerText = text;
-            textWindow.appendChild(textMessage);
+            // i kaire nes gauni message
+            textMessage.classList.add('text-left');
+            textWindow.insertAdjacentHTML('afterend', textMessage.outerHTML.toString())
+            /* textWindow.appendChild(textMessage); */
         }
     });
 
@@ -110,9 +115,16 @@
 
         if (messageData) {
             messageData.forEach((message) => {
+                // i kaire siuntei ne tu, i desine jeigu siuntei tu
                 const textMessage = document.createElement("p");
                 textMessage.innerText = message.text;
-                textWindow.appendChild(textMessage);
+                if (message.from_id == userid) {
+                    textMessage.classList.add('text-right');
+                }
+                if (message.to_id == userid) {
+                    textMessage.classList.add('text-left');
+                }
+                textWindow.insertAdjacentHTML('afterend', textMessage.outerHTML.toString())
             })
         }
     }
@@ -141,10 +153,13 @@
                 'X-Socket-Id': pusher.connection.socket_id
             }
         }).then((res) => {
-            console.log(res)
             const textMessage = document.createElement("p");
             textMessage.innerText = inputValue;
-            textWindow.appendChild(textMessage);
+            // i desine nes siuntei tu
+            textMessage.classList.add('text-right');
+            textWindow.insertAdjacentHTML('afterend', textMessage.outerHTML.toString())
+            /* textWindow.appendChild(textMessage); */
+            document.querySelector("#message").value = "";
         }).catch((err) => {
             // nudazyti teksta pilkai parodyti errora, o paclickinus iskarto ideti teksta zinai uzer fedback gersnis.
             console.error('er', err)

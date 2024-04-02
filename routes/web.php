@@ -83,10 +83,13 @@ Route::post('/admin/chat/receive', function (Request $request) {
 Route::get('/chat/fetch', function (Request $request) {
     $fromUser =  $request->get('from_id');
     $toUser =  $request->get('to_id');
+    
+    $userSentMessages = ChatMessages::where('from_id', $fromUser)->where('to_id', $toUser)->get()->toArray();
+    $userReceivedMessages = ChatMessages::where('from_id', $toUser)->where('to_id', $fromUser)->get()->toArray();
 
-    $userSentMessages = ChatMessages::where('from_id', $fromUser)->orWhere('from_id', $toUser)->where('to_id', $toUser)->orWhere('to_id', $fromUser)->get()->toArray();
+    $chatMessages = array_merge($userSentMessages, $userReceivedMessages);
 
-    return response()->json($userSentMessages);
+    return response()->json($chatMessages);
 });
 /* ADMIN  */
 

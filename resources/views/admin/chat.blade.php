@@ -16,10 +16,10 @@
         <div class="relative w-3/4 h-full">
             @if ($id)
                 <div class="chatting message-{{ $id }}">
-                    chat su {{ $id }}
+                    <h3 class="text-xl font-bold chatting-title">chat su {{ $id }}</h3>
                 </div>
             @else
-                <div class="chatting">
+                <div class="chatting flex flex-col gap-2">
                     <h3 class="chatting-message text-4xl text-red-500">Open event chat</h3>
                 </div>
             @endif
@@ -52,7 +52,7 @@
 
         /* var channel = pusher.subscribe('channel'); */
 
-        const textWindow = document.querySelector('.chatting');
+        const textWindow = document.querySelector('.chatting-title');
         const messageValue = document.querySelector("#message").value;
         const submitButton = document.querySelector('#send-button');
 
@@ -72,13 +72,21 @@
             });
 
             const messageData = result.data;
-            console.log(messageData);
 
             if (messageData) {
                 messageData.forEach((message) => {
                     const textMessage = document.createElement("p");
                     textMessage.innerText = message.text;
-                    textWindow.appendChild(textMessage);
+                    if (message.from_id == userid) {
+                        textMessage.classList.add('text-right');
+                    }
+                    if (message.to_id == userid) {
+                        textMessage.classList.add('text-left');
+                    }
+
+                    /* textWindow.parentNode.insertBefore(textMessage, textWindow.nextSibling) */
+                    textWindow.insertAdjacentHTML('afterend', textMessage.outerHTML.toString())
+                    /* textWindow.appendChild(textMessage); */
                 })
             }
         }
@@ -105,7 +113,10 @@
                     } = data.message;
                     const textMessage = document.createElement("p");
                     textMessage.innerText = text;
-                    textWindow.appendChild(textMessage);
+                    textMessage.classList.add('text-left');
+                    textWindow.insertAdjacentHTML('afterend', textMessage.outerHTML.toString())
+                    /* textWindow.parentNode.insertBefore(textMessage, textWindow.nextSibling) */
+                    /* textWindow.appendChild(textMessage); */
                 } else {
                     const selectorClass = '.messageSelector-' + id;
                     const selector = document.querySelector(selectorClass);
@@ -136,7 +147,10 @@
                 console.log(res);
                 const textMessage = document.createElement("p");
                 textMessage.innerText = inputValue;
-                textWindow.appendChild(textMessage);
+                textMessage.classList.add('text-right');
+                textWindow.insertAdjacentHTML('afterend', textMessage.outerHTML.toString())
+                /* textWindow.parentNode.insertBefore(textMessage, textWindow.nextSibling) */
+                /* textWindow.appendChild(textMessage); */
                 document.querySelector("#message").value = "";
             }).catch((err) => {
                 console.error('rags:', err);
