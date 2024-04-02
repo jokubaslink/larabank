@@ -60,7 +60,7 @@ class AdminController extends Controller
         $count = count($ids);
 
 
-        $id = "-1";
+        $id = null;
         // nereikalingas 100% variable, nu pasirenkamasis
 
         return view('admin.chat', compact('id', 'ids', 'count'));

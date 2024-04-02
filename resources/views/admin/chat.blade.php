@@ -14,7 +14,7 @@
             @endforeach
         </div>
         <div class="relative w-3/4 h-full">
-            @if ($id !== '-1')
+            @if ($id)
                 <div class="chatting message-{{ $id }}">
                     chat su {{ $id }}
                 </div>
@@ -34,22 +34,7 @@
         </div>
     </div>
 
-    {{--     <script>
-        function selectEvent(id) {
-            const chattingWindow = document.querySelector('.chatting');
-            const newChattingWindow = document.createElement('div');
-            newChattingWindow.classList.add('chatting');
-            const chattingMessage = document.querySelector('.chatting-message');
-            if (chattingMessage) {
-                chattingMessage.remove();
-            }
-
-            const eventName = 'event-' + id;
-            newChattingWindow.classList.add(eventName);
-            chattingWindow.replaceWith(newChattingWindow);
-
-        }
-    </script> --}}
+    {{--  --}}
 
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -76,7 +61,31 @@
         var channel = pusher.subscribe('channel');
         const userid = "{{ Auth::user()->id }}";
 
-       /*  const to_id = document.querySelector('.to_id'); */
+        const to_id = document.querySelector('.to_id').value;
+
+        async function fetchMessages() {
+            const result = await axios.get('/chat/fetch', {
+                params: {
+                    from_id: userid,
+                    to_id: to_id
+                }
+            });
+
+            const messageData = result.data;
+            console.log(messageData);
+
+            if (messageData) {
+                messageData.forEach((message) => {
+                    const textMessage = document.createElement("p");
+                    textMessage.innerText = message.text;
+                    textWindow.appendChild(textMessage);
+                })
+            }
+        }
+
+        if (to_id && userid) {
+            fetchMessages();
+        }
 
         let messageIndentificator;
         let sendToId;
@@ -86,10 +95,14 @@
 
             messageIndentificator = 'message-' + id;
             const indState = textWindow.classList.contains(messageIndentificator);
-            if(indState) sendToId = id;
+            if (indState) sendToId = id;
             channel.bind(messageIndentificator, function(data) {
                 if (indState) {
-                    const {text, from_id, to_id} = data.message;
+                    const {
+                        text,
+                        from_id,
+                        to_id
+                    } = data.message;
                     const textMessage = document.createElement("p");
                     textMessage.innerText = text;
                     textWindow.appendChild(textMessage);
@@ -120,6 +133,7 @@
                     "Content-Type": "application/json"
                 }
             }).then((res) => {
+                console.log(res);
                 const textMessage = document.createElement("p");
                 textMessage.innerText = inputValue;
                 textWindow.appendChild(textMessage);

@@ -85,14 +85,42 @@
     /* bindinam tik prie savo user id evento jei local, prod: admin*/
     const ADMIN_USER_ID = 4;
     channel.bind('message-' + ADMIN_USER_ID, function(data) {
-        const {text, from_id, to_id} = data.message;
+        const {
+            text,
+            from_id,
+            to_id
+        } = data.message;
         console.log('gauname', from_id, to_id, userid)
-        if(from_id == ADMIN_USER_ID && to_id == userid){
+        if (from_id == ADMIN_USER_ID && to_id == userid) {
             const textMessage = document.createElement("p");
             textMessage.innerText = text;
             textWindow.appendChild(textMessage);
         }
     });
+
+    async function fetchMessages() {
+        const result = await axios.get('/chat/fetch', {
+            params: {
+                from_id: userid,
+                to_id: ADMIN_USER_ID
+            }
+        });
+
+        const messageData = result.data;
+
+        if (messageData) {
+            messageData.forEach((message) => {
+                const textMessage = document.createElement("p");
+                textMessage.innerText = message.text;
+                textWindow.appendChild(textMessage);
+            })
+        }
+    }
+
+    if (userid) {
+        fetchMessages();
+    }
+
 
     const messageValue = document.querySelector("#message").value;
     const submitButton = document.querySelector('#send-button');

@@ -4,11 +4,14 @@ use App\Events\PusherEvent;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Models\ChatMessages;
 use App\Models\User;
 use Illuminate\Broadcasting\Broadcasters\PusherBroadcaster;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,6 +59,12 @@ Route::post('/admin/chat/send', function (Request $request) {
 
     broadcast(new PusherEvent($message))->toOthers();
 
+    ChatMessages::create([
+        'from_id' => $message['from_id'],
+        'to_id' => $message['to_id'],
+        'text' => $message['text'],
+    ]);
+
     return view('admin.chat', compact('id', 'message', 'ids', 'count'));
 });
 Route::post('/admin/chat/receive', function (Request $request) {
@@ -68,7 +77,16 @@ Route::post('/admin/chat/receive', function (Request $request) {
 
     $message = $request->get('message');
 
-    return view('admin.chat', compact('message', 'ids', 'count'));
+    return view('admin.chat', compact(/* 'message',  */'ids', 'count'));
+});
+
+Route::get('/chat/fetch', function (Request $request) {
+    $fromUser =  $request->get('from_id');
+    $toUser =  $request->get('to_id');
+
+    $userSentMessages = ChatMessages::where('from_id', $fromUser)->orWhere('from_id', $toUser)->where('to_id', $toUser)->orWhere('to_id', $fromUser)->get()->toArray();
+
+    return response()->json($userSentMessages);
 });
 /* ADMIN  */
 
