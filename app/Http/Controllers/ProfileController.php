@@ -240,10 +240,18 @@ class ProfileController extends Controller
 
     public function showPortfolio()
     {
+        $stocks = [
+            ['key' => 'AAPL', 'price' => "170.92"],
+            ['key' => 'TSLA', 'price' => "175.56"],
+            ['key' => 'NVDA', 'price' => "934.69"],
+            ['key' => 'INTC', 'price' => "45.40"],
+            ['key' => 'AMZN', 'price' => "179.77"]
+        ];
+
         $user = Auth::user();
         $portfolio = Stocks::where('holder_id', $user->id)->get();
 
-        return view('profile.portfolio', compact('portfolio'));
+        return view('profile.portfolio', compact('portfolio', 'stocks'));
     }
 
     /*     public function showAdvice(){

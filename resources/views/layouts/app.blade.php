@@ -27,8 +27,6 @@
                 href="{{ route('dashboard') }}">Dashboard</a>
             <a class="{{ $currentRouteName === 'profile.transactions' ? 'text-red-500' : 'text-black' }}"
                 href="{{ route('profile.transactions') }}">Transactions</a>
-            <a class="{{ $currentRouteName === 'profile.credit-card' ? 'text-red-500' : 'text-black' }}"
-                href="{{ route('profile.credit-card') }}">Credit card</a>
             <a class="{{ $currentRouteName === 'show.stocks' ? 'text-red-500' : 'text-black' }}"
                 href="{{ route('show.stocks') }}">Stocks</a>
             <a class="{{ $currentRouteName === 'portfolio.show' ? 'text-red-500' : 'text-black' }}"
