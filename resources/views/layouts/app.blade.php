@@ -18,13 +18,21 @@
 </head>
 
 <body class="bg-gray-100 font-sans antialiased">
-    <div class="relative border-black border-x-2 min-h-screen m-auto max-w-[1200px] w-full dark:bg-gray-900">
-        <nav class="flex items-center justify-between border-y-2 border-black p-4">
-            <a href="{{ route('dashboard') }}">Dashboard</a>
-            <a href="{{ route('profile.transactions') }}">Transactions</a>
-            <a href="{{ route('profile.credit-card') }}">Credit card</a>
-            <a href="{{ route('show.stocks') }}">Stocks</a>
-            <a href="{{ route('portfolio.show') }}">Portfolio</a>
+    <div class="relative min-h-screen m-auto max-w-[1200px] w-full dark:bg-gray-900">
+        <nav class="flex items-center justify-between p-4">
+            <?php
+            $currentRouteName = Route::currentRouteName();
+            ?>
+            <a class="{{ $currentRouteName === 'dashboard' ? 'text-red-500' : 'text-black' }}"
+                href="{{ route('dashboard') }}">Dashboard</a>
+            <a class="{{ $currentRouteName === 'profile.transactions' ? 'text-red-500' : 'text-black' }}"
+                href="{{ route('profile.transactions') }}">Transactions</a>
+            <a class="{{ $currentRouteName === 'profile.credit-card' ? 'text-red-500' : 'text-black' }}"
+                href="{{ route('profile.credit-card') }}">Credit card</a>
+            <a class="{{ $currentRouteName === 'show.stocks' ? 'text-red-500' : 'text-black' }}"
+                href="{{ route('show.stocks') }}">Stocks</a>
+            <a class="{{ $currentRouteName === 'portfolio.show' ? 'text-red-500' : 'text-black' }}"
+                href="{{ route('portfolio.show') }}">Portfolio</a>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit">Logout</button>
@@ -51,8 +59,8 @@
 
                 </div>
             </div>
-            <button class="p-4 rounded-full bg-red-500 text-white chatButton inline-block"
-                onclick="openWindow()">Chat</button>
+            <button class="p-4 h-[60px] w-[60px] rounded-full bg-red-500 text-white chatButton inline-block"
+                onclick="openWindow()">C</button>
         </div>
     </div>
 </body>

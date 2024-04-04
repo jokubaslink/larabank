@@ -24,25 +24,25 @@
             <nav class="w-full fixed top-0 h-[100px] z-10 bg-gray-100 flex items-center justify-evenly ">
                 <div class="flex items-center gap-8">
                     <a href="#about"
-                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">About
+                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:border-b-2 focus:border-red-500">About
                         us</a>
                     <a href="#contact"
-                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Contact</a>
+                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:border-b-2 focus:border-red-500">Contact</a>
                 </div>
 
                 @if (Route::has('login'))
                     <div>
                         @auth
                             <a href="{{ url('/dashboard') }}"
-                                class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
+                                class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:border-b-2 focus:border-red-500">Dashboard</a>
                         @else
                             <a href="{{ route('login') }}"
-                                class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log
+                                class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:border-b-2 focus:border-red-500">Log
                                 in</a>
 
                             @if (Route::has('register'))
                                 <a href="{{ route('register') }}"
-                                    class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                                    class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:border-b-2 focus:border-red-500">Register</a>
                             @endif
                         @endauth
                     </div>
@@ -73,33 +73,37 @@
                 </div>
 
                 <div class="mt-12 grid grid-rows-1 grid-cols-3 gap-8">
-                    <div class="border-2 border-black rounded-md p-4">
+
+                    <div class="shadow-2xl border-2 border-gray-300 rounded-md p-4">
                         <h3 class="font-bold text-2xl">Save</h3>
                         <figure class="w-full">
                             <img class="w-full" src="{{ asset('undraw_payments_re_77x0.svg') }}" alt="">
                         </figure>
                     </div>
-                    <div class="border-2 border-black rounded-md p-4">
+
+                    <div class="shadow-2xl border-2 border-gray-300 rounded-md p-4">
                         <h3 class="font-bold text-2xl">Invest</h3>
                         <figure class="w-full">
                             <img class="w-full" src="{{ asset("undraw_vault_re_s4my.svg") }}" alt="">
                         </figure>
                     </div>
-                    <div class="border-2 border-black rounded-md p-4">
+
+                    <div class="shadow-2xl border-2 border-gray-300 rounded-md p-4">
                         <h3 class="font-bold text-2xl">Learn</h3>
                         <figure class="m-auto w-full">
                             <img class="w-full" src="{{ asset("undraw_road_to_knowledge_m8s0.svg") }}" alt="">
                         </figure>
                     </div>
+
                 </div>
 
             </div>
             <div class="h-screen w-full" id="contact">
-                <div class="p-8 items-center justify-center flex-col md:flex-row flex gap-2">
-                    <div class="md:w-1/2">
+                <div class="p-8 items-end justify-center flex-col md:flex-row flex gap-2">
+                    <div class="lg:w-1/2">
                         <h1 class="text-start font-bold text-6xl text-red-500">Contact us</h1>
     
-                        <p class="mt-4 max-w-[600px] w-full text-xl italic">Lorem ipsum, dolor sit amet consectetur
+                        <p class="mt-4 max-w-[600px] w-full text-xl italic mb-4">Lorem ipsum, dolor sit amet consectetur
                             adipisicing
                             elit.
                             Quos tempora nihil soluta quisquam quasi in exercitationem, sunt laudantium, minima fuga iste
@@ -107,26 +111,27 @@
                             magnam molestias velit eos neque dicta dolores nam.</p>
     
                         
-                        <form action="" class="">
+                        <form action="" class="flex flex-col gap-2 ">
                             <div class="flex flex-col">
                                 <label for="">Name</label>
-                                <input type="text" class="w-full"> {{-- class="max-w-[400px] w-full" --}}
+                                <input type="text" class="max-w-[500px] w-full rounded-md"> {{-- class="max-w-[400px] w-full" --}}
                             </div>
                             <div class="flex flex-col">
                                 <label for="">Email</label>
-                                <input type="email" class="w-full">
+                                <input type="email" class="max-w-[500px] w-full rounded-md">
                             </div>
                             <div class="flex flex-col">
                                 <label for="">Phone</label>
-                                <input type="text" class="w-full">
+                                <input type="text" class="max-w-[500px] w-full rounded-md">
                             </div>
                             <div class="flex flex-col">
                                 <label for="">Message</label>
-                                <textarea name="" id="" required class="w-full h-[200px] resize-none"></textarea>
+                                <textarea name="" id="" required class="w-full h-[200px] resize-none rounded-md"></textarea>
                             </div>
+                            <button type="submit" class="border-2 border-gray-300 rounded-md p-2 h-[50px] w-full">Send Message</button>
                         </form>
                     </div>
-                    <figure class="md:flex items-center justify-center  hidden md:w-1/2">
+                    <figure class="hidden lg:flex items-center justify-center lg:w-1/2">
                         <img class="w-full" src="{{asset("undraw_savings_re_eq4w.svg")}}" alt="">
                     </figure>
                 </div>
