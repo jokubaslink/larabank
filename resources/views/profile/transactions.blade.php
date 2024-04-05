@@ -7,7 +7,7 @@
                 <h3 class="text-center text-2xl text-red-500">No transaction history.</h3>
             @else
                 @foreach ($transactions as $transaction)
-                    <li class=" border-b-2 border-gray-300 p-2 gap-5 flex items-center">
+                    <li class=" border-b-2 border-gray-300 p-2 gap-5 flex items-center ">
                         <?php
                         $transaction_from = DB::table('users')
                             ->where('credit_card', $transaction->from_id)

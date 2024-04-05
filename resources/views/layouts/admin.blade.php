@@ -11,16 +11,33 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-{{--     <link rel="stylesheet" href="../../css/output.css"> --}}
+    {{--     <link rel="stylesheet" href="../../css/output.css"> --}}
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
 
 <body class="bg-gray-100 font-sans antialiased">
-    <div class="border-black border-x-2 min-h-screen m-auto max-w-[1200px] w-full dark:bg-gray-900">
-        <nav class="flex items-center justify-between border-y-2 border-black p-4">
-            Admin Navigation
+    <div class="relative min-h-screen m-auto max-w-[1200px] w-full dark:bg-gray-900">
+        <nav class="flex items-center justify-between p-4">
+            <?php
+            $currentRoute = Route::currentRouteName();
+            
+            if($currentRoute === 'admin.dashboard'){
+                $currentRoute = 'Dashboard';
+            }
+
+            if($currentRoute === 'admin.kyc'){
+                $currentRoute = 'KYC Verifications';
+            }
+
+            if($currentRoute === 'admin.chat'){
+                $currentRoute = 'User Support Chat';
+            }
+
+            ?>
+
+            <p class="text-red-500 text-xl font-bold"> Larabank Admin - {{ $currentRoute }} </p>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit">Logout</button>

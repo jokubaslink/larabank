@@ -6,6 +6,11 @@
     $portfolio_currentWorth = 0;
     ?>
 
+    @if(count($portfolio) === 0)
+        <p class="text-xl">You do not have any investments</p>
+        <a href="{{route('show.stocks')}}"><button class="border-2 border-gray-300 p-2 rounded-md shadow-lg w-[200px] h-[50px]">Buy stocks</button></a>
+    @else
+
     <ul>
         @foreach ($portfolio as $stock)
             <?php
@@ -31,5 +36,7 @@
         <span class="text-gray-300">{{ $portfolio_firstWorth }}&euro;</span> -> <span
             class="{{ $portfolio_currentWorth > $portfolio_firstWorth ? 'text-green-500' : 'text-red-500' }}">{{ $portfolio_currentWorth }}&euro;</span>
     </h3>
+
+    @endif
 
 </x-app-layout>

@@ -2,8 +2,8 @@
 
     <h1 class="text-7xl text-red-500 font-bold mt-4 mb-4">Welcome, {{ Auth::user()->name }}</h1>
 
-    @if (Session::has('message'))
-        <p class="text-4xl font-bold text-green-300">{{ Session::get('message') }}</p>
+    @if (Session::has('success'))
+        <p class="text-4xl font-bold text-green-300">{{ Session::get('success') }}</p>
     @endif
 
     @if (!Auth::user()->user_verified_at)

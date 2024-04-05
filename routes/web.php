@@ -41,6 +41,7 @@ Route::get('/dashboard', function () {
 
 Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->middleware(['auth', 'verified'])->name('admin.dashboard');
 Route::get('/admin/dashboard/kyc', [AdminController::class, 'kycDashboard'])->middleware(['auth', 'verified'])->name('admin.kyc');
+Route::get('/admin/dashboard/kyc/info/{user_id}', [AdminController::class, 'kycInfo'])->middleware(['auth', 'verified'])->name('admin.kycInfo');
 Route::post('/admin/dashboard/kyc/{user_id}', [AdminController::class, 'kycVerify'])->middleware(['auth', 'verified'])->name('admin.kycVerify');
 Route::get('/admin/chat', [AdminController::class, 'chat'])->middleware(['auth', 'verified'])->name('admin.chat');
 

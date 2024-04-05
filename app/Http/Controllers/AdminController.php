@@ -21,6 +21,10 @@ class AdminController extends Controller
         return view('admin.kyc', compact('haveSubmitted'));
     }
 
+    public function kycInfo($user_id){
+        return view('admin.kyc-info', compact('user_id'));
+    }
+
     public function kycVerify($user_id)
     {
         $user = User::where('id', $user_id)->first();

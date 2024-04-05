@@ -87,15 +87,15 @@ class ProfileController extends Controller
         $age = Carbon::createFromFormat('Y-m-d', $birthday)->age;
 
         if ($email !== Auth::user()->email || !Hash::check($psw, Auth::user()->password)) {
-            return redirect('/kyc')->with('message', 'Your email or password is incorrect');
+            return redirect('/kyc')->with('error', 'Your email or password is incorrect');
         }
 
         if (Auth::user()->user_verified_at) {
-            return redirect('/dashboard')->with('message', 'Your account is already verified');
+            return redirect('/dashboard')->with('error', 'Your account is already verified');
         }
 
         if ($age < 18) {
-            return redirect('/kyc')->with('message', 'You are too young to use our services');
+            return redirect('/kyc')->with('error', 'You are too young to use our services');
         }
 
         if ($request->hasFile('id_picture')) {
@@ -109,7 +109,7 @@ class ProfileController extends Controller
                 'id_picture' => $imagePath,
             ]);
 
-            return redirect('/dashboard')->with('message', 'Your identification has been submitted for review.');
+            return redirect('/dashboard')->with('success', 'Your identification has been submitted for review.');
         }
     }
 
