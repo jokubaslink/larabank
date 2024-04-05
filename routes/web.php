@@ -2,6 +2,7 @@
 
 use App\Events\PusherEvent;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GPTController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Models\ChatMessages;
@@ -101,6 +102,10 @@ Route::get('/dashboard/transactions', [ProfileController::class, 'showTransactio
 Route::get('/dashboard/credit-card', [ProfileController::class, 'showCreditCard'])->middleware(['auth', 'verified'])->name('profile.credit-card');
 Route::get('/dashboard/transaction', [ProfileController::class, 'showTransaction'])->middleware(['auth', 'verified'])->name('reg.transaction');
 Route::post('/dashboard/transaction', [ProfileController::class, 'makeTransaction'])->middleware(['auth', 'verified'])->name('make.transaction');
+
+Route::get('/dashboard/advice', [GPTController::class, 'showAdvice'])->middleware(['auth', 'verified'])->name('profile.advice');
+Route::post('/dashboard/get-advice', [GPTController::class, 'getAdvice'])->middleware(['auth', 'verified'])->name('profile.getAdvice');
+
 
 Route::get('/about-us', function () {
     return view('about-us');

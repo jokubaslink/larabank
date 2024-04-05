@@ -19,6 +19,8 @@
         <p class="text-5xl font-bold mb-4">Balance: {{$user->balance}}&euro;</p>
 
         <a href="{{route('reg.transaction')}}"><button class="border-2 border-gray-300 p-2 rounded-md shadow-lg w-[200px] h-[50px]">Make a transaction</button></a>
+        <a href="{{route('show.stocks')}}"><button class="border-2 border-gray-300 p-2 rounded-md shadow-lg w-[200px] h-[50px]">Buy stocks</button></a>
+        <a href="{{route('profile.advice') }}"><button class="border-2 border-gray-300 p-2 rounded-md shadow-lg w-[200px] h-[50px]">Financial advice</button></a>
         <a href="{{route('profile.credit-card') }}"><button class="border-2 border-gray-300 p-2 rounded-md shadow-lg w-[200px] h-[50px]">Digital credit card</button></a>
 
 {{--         <a href="{{route('')}}">Investing advice</a>

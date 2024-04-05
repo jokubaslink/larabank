@@ -90,17 +90,17 @@ class ProfileController extends Controller
             return redirect('/kyc')->with('message', 'Your email or password is incorrect');
         }
 
-        if(Auth::user()->user_verified_at){
+        if (Auth::user()->user_verified_at) {
             return redirect('/dashboard')->with('message', 'Your account is already verified');
         }
 
         if ($age < 18) {
             return redirect('/kyc')->with('message', 'You are too young to use our services');
         }
-        
+
         if ($request->hasFile('id_picture')) {
             $imagePath = $request->file('id_picture')->store('verifyPics', 'public');
-            
+
             Verifications::create([
                 'user_id' => Auth::user()->id,
                 'name' => $request->name,
@@ -111,8 +111,6 @@ class ProfileController extends Controller
 
             return redirect('/dashboard')->with('message', 'Your identification has been submitted for review.');
         }
-
-
     }
 
     public function showCreditCard()
@@ -254,7 +252,4 @@ class ProfileController extends Controller
         return view('profile.portfolio', compact('portfolio', 'stocks'));
     }
 
-    /*     public function showAdvice(){
-
-    } */
 }
