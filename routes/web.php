@@ -82,6 +82,8 @@ Route::post('/admin/chat/receive', function (Request $request) {
     return view('admin.chat', compact(/* 'message',  */'ids', 'count'));
 });
 
+Route::get('/admin/recent-transactions', [AdminController::class, 'showRecentTransactions'])->middleware(['auth', 'verified'])->name('admin.transactions');
+
 Route::get('/chat/fetch', function (Request $request) {
     $fromUser =  $request->get('from_id');
     $toUser =  $request->get('to_id');

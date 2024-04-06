@@ -38,6 +38,9 @@
             ?>
 
             <p class="text-red-500 text-xl font-bold"> Larabank Admin - {{ $currentRoute }} </p>
+
+            
+
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit">Logout</button>

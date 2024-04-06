@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transactions;
 use App\Models\User;
 use App\Models\Verifications;
 use Illuminate\Http\Request;
@@ -80,5 +81,11 @@ class AdminController extends Controller
         $count = count($ids);
 
         return view('admin.chat', compact('id', 'ids', 'count'));
+    }
+
+    public function showRecentTransactions(){
+        $transactions = Transactions::get();
+
+        return view('admin.recent-transactions', compact('transactions'));
     }
 }

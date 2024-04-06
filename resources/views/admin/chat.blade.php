@@ -1,34 +1,30 @@
 <x-admin-layout>
-    Admin chat
-
-    <div class="border-2 border-black chatWindow w-full flex items-center justify-center h-[600px]">
-        <div class="w-1/4 border-r-2 border-black h-full flex flex-col">
-            <h3>Message requests {{ $count }}</h3>
-
+    <div class="p-2 shadow-xl chatWindow w-full flex items-center justify-center h-[600px] gap-2">
+        <div class="w-1/4  h-full flex flex-col mr-2">
             @foreach ($ids as $selectionId)
-                <a href="{{ route('admin.chatWindow', $selectionId) }}">
-                    <div class="border-2 border-black p-2 h-[80px] w-full messageSelector-{{ $selectionId }}"
-                        onclick="selectEvent({{ $selectionId }})">Event
+                <a href="{{ route('admin.chatWindow', $selectionId) }}" class="mb-2 last:mb-0">
+                    <div class="border-2 border-gray-300 rounded-md shadow-lg p-2 h-[80px] w-full messageSelector-{{ $selectionId }}"
+                        onclick="selectEvent({{ $selectionId }})">User_ID -
                         {{ $selectionId }}</div>
                 </a>
             @endforeach
         </div>
-        <div class="relative w-3/4 h-full">
+        <div class="relative w-3/4 h-full ml-2">
             @if ($id)
                 <div class="chatting message-{{ $id }}">
-                    <h3 class="text-xl font-bold chatting-title">chat su {{ $id }}</h3>
+                    <h3 class="text-xl font-bold chatting-title"></h3>
                 </div>
             @else
                 <div class="chatting flex flex-col gap-2">
-                    <h3 class="chatting-message text-4xl text-red-500">Open event chat</h3>
+                    <h3 class="chatting-message text-4xl text-red-500">Select a chat</h3>
                 </div>
             @endif
 
             <div class="w-full absolute bottom-0 flex gap-2">
 
-                <input id="message" type="text" placeholder="enter meessage" name="message">
+                <input class="max-w-[600px] w-full rounded-md" id="message" type="text" placeholder="Enter message" name="message">
                 <input class="to_id" type="text" hidden value="{{ $id }}" name="id">
-                <button id="send-button">Send message</button>
+                <button class="p-2 border-2 border-gray-300 rounded-md w-[150px] h-[50px]" id="send-button">Send message</button>
 
             </div>
         </div>
@@ -77,6 +73,7 @@
                 messageData.forEach((message) => {
                     const textMessage = document.createElement("p");
                     textMessage.innerText = message.text;
+                    textMessage.classList += ' border-2 border-gray-300 rounded-md  ';
                     if (message.from_id == userid) {
                         textMessage.classList.add('text-right');
                     }
@@ -120,7 +117,7 @@
                 } else {
                     const selectorClass = '.messageSelector-' + id;
                     const selector = document.querySelector(selectorClass);
-                    selector.classList.add('bg-red-400');
+                    selector.classList.add('bg-red-300');
                 }
             });
 
