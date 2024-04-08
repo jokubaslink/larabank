@@ -14,6 +14,7 @@
     {{--     <link rel="stylesheet" href="../../css/output.css"> --}}
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://kit.fontawesome.com/8e71c0bf67.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -39,26 +40,27 @@
         <main class="p-16">
             {{ $slot }}
         </main>
-        <div class="absolute right-20 bottom-10 flex flex-col items-end justify-center ">
+        <div class="absolute right-20 bottom-10 flex flex-col items-end justify-center">
             <div
-                class="chatWindow hidden bg-red-300 border-red-500 rounded-md border-2  p-1 w-[300px] h-[360px] flex-col">
-                <button class="w-[20px] border-2 border-black rounded-full" onclick="closeWindow()">X</button>
-                <div class="h-full relative">
-                    <div class="chatBox p-1">
-                        <h3 class="text-center chatBox-title mb-5">Ask our admins a question</h3>
+                class="chatWindow hidden bg-white border-gray-300 rounded-md border-2 p-1 w-[300px] h-[360px] shadow-lg items-start justify-start">
+                <div class="h-full relative w-full flex flex-col items-center">
+                    <div class="chatBox p-1 flex items-center justify-between w-full">
+                        <button class="" onclick="closeWindow()"><i class="fa-solid fa-x text-xl"></i></button>
+                        <h3 class="text-center chatBox-title text-lg">Ask our admins a question</h3>
 
                     </div>
 
-                    <div class="absolute bottom-0 flex gap-2">
-                        <input id="message" name="message" type="text" placeholder="Type in your message">
-                        <button class="border-2 border-black rounded-full p-2 h-[40px] w-[40px] text-center"
-                            id="send-button">+</button>
+                    <div class="absolute bottom-0 flex gap-2 items-center justify-center">
+                        <input id="message" name="message" type="text" placeholder="Type in your message" class="rounded-md">
+                        <button class="p-2 h-[40px] w-[40px] text-center"
+                            id="send-button"><i class="fa-solid fa-paper-plane text-xl text-red-500"></i></button>
                     </div>
 
                 </div>
             </div>
-            <button class="p-4 h-[60px] w-[60px] rounded-full bg-red-500 text-white chatButton inline-block"
-                onclick="openWindow()">C</button>
+
+            <button class="p-4 h-[60px] w-[60px] rounded-full bg-white border-gray-300 text-white chatButton flex items-center justify-center"
+                onclick="openWindow()"><i class="fa-brands fa-rocketchat text-3xl text-red-500"></i></button>
         </div>
     </div>
 </body>
@@ -179,11 +181,11 @@
 
     function openWindow() {
         chatWidgetWindow.classList.replace("hidden", "flex");
-        chatWidgetButton.classList.replace("inline-block", 'hidden');
+        chatWidgetButton.classList.replace("flex", 'hidden');
     }
 
     function closeWindow() {
         chatWidgetWindow.classList.replace("flex", "hidden");
-        chatWidgetButton.classList.replace("hidden", "inline-block");
+        chatWidgetButton.classList.replace("hidden", "flex");
     }
 </script>
