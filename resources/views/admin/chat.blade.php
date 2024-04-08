@@ -22,9 +22,11 @@
 
             <div class="w-full absolute bottom-0 flex gap-2">
 
-                <input class="max-w-[600px] w-full rounded-md" id="message" type="text" placeholder="Enter message" name="message">
+                <input class="max-w-[600px] w-full rounded-md" id="message" type="text" placeholder="Enter message"
+                    name="message">
                 <input class="to_id" type="text" hidden value="{{ $id }}" name="id">
-                <button class="p-2 border-2 border-gray-300 rounded-md w-[150px] h-[50px]" id="send-button">Send message</button>
+                <button class="p-2 border-2 border-gray-300 rounded-md w-[150px] h-[50px]" id="send-button">Send
+                    message</button>
 
             </div>
         </div>
@@ -71,18 +73,20 @@
 
             if (messageData) {
                 messageData.forEach((message) => {
+                    const textMessageWrapper = document.createElement('div');
+                    textMessageWrapper.classList += " w-full flex flex-col mb-2 last:mb-0 "
                     const textMessage = document.createElement("p");
                     textMessage.innerText = message.text;
-                    textMessage.classList += ' border-2 border-gray-300 rounded-md  ';
+                    textMessage.classList += ' p-2 border-2 border-gray-300 rounded-md w-max  ';
                     if (message.from_id == userid) {
-                        textMessage.classList.add('text-right');
+                        textMessageWrapper.classList.add('items-end');
                     }
                     if (message.to_id == userid) {
-                        textMessage.classList.add('text-left');
+                        textMessageWrapper.classList.add('items-start');
                     }
-
+                    textMessageWrapper.appendChild(textMessage);
                     /* textWindow.parentNode.insertBefore(textMessage, textWindow.nextSibling) */
-                    textWindow.insertAdjacentHTML('afterend', textMessage.outerHTML.toString())
+                    textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString())
                     /* textWindow.appendChild(textMessage); */
                 })
             }
