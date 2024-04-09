@@ -28,7 +28,7 @@
                 href="{{ route('dashboard') }}">Dashboard</a>
             <a class="{{ $currentRouteName === 'profile.transactions' ? 'text-red-500' : 'text-black' }}"
                 href="{{ route('profile.transactions') }}">Transactions</a>
-{{--             <a class="{{ $currentRouteName === 'show.stocks' ? 'text-red-500' : 'text-black' }}"
+            {{--             <a class="{{ $currentRouteName === 'show.stocks' ? 'text-red-500' : 'text-black' }}"
                 href="{{ route('show.stocks') }}">Stocks</a> --}}
             <a class="{{ $currentRouteName === 'portfolio.show' ? 'text-red-500' : 'text-black' }}"
                 href="{{ route('portfolio.show') }}">Portfolio</a>
@@ -44,22 +44,29 @@
             <div
                 class="chatWindow hidden bg-white border-gray-300 rounded-md border-2 p-1 w-[300px] h-[360px] shadow-lg items-start justify-start">
                 <div class="h-full relative w-full flex flex-col items-center">
-                    <div class="chatBox p-1 flex items-center justify-between w-full">
-                        <button class="" onclick="closeWindow()"><i class="fa-solid fa-x text-xl"></i></button>
-                        <h3 class="text-center chatBox-title text-lg">Ask our admins a question</h3>
+                    <div class="chatBox p-1 w-full h-4/5 overflow-y-auto">
+                        <div class="chatBox-title bg-red-500 sticky top-0 w-full">
+                            <button class="absolute top-1 left-2"  onclick="closeWindow()"><i
+                                    class="fa-solid fa-x text-xl text-gray-300"></i></button>
+                                    {{-- class="absolute top-2 left-2" --}}
+                            <h3 class="text-center  text-lg  mb-2">Ask our admins a
+                                question</h3>
+                        </div>
 
                     </div>
 
-                    <div class="absolute bottom-0 flex gap-2 items-center justify-center">
-                        <input id="message" name="message" type="text" placeholder="Type in your message" class="rounded-md">
-                        <button class="p-2 h-[40px] w-[40px] text-center"
-                            id="send-button"><i class="fa-solid fa-paper-plane text-xl text-red-500"></i></button>
+                    <div class="absolute bottom-0 flex gap-2 items-center justify-center h-1/5">
+                        <input id="message" name="message" type="text" placeholder="Type in your message"
+                            class="rounded-md">
+                        <button class="p-2 h-[40px] w-[40px] text-center" id="send-button"><i
+                                class="fa-solid fa-paper-plane text-xl text-red-500"></i></button>
                     </div>
 
                 </div>
             </div>
 
-            <button class="p-4 h-[60px] w-[60px] rounded-full bg-white border-gray-300 text-white chatButton flex items-center justify-center"
+            <button
+                class="p-4 h-[60px] w-[60px] rounded-full bg-white border-gray-300 text-white chatButton flex items-center justify-center"
                 onclick="openWindow()"><i class="fa-brands fa-rocketchat text-3xl text-red-500"></i></button>
         </div>
     </div>
@@ -102,12 +109,17 @@
         } = data.message;
         console.log('gauname', from_id, to_id, userid)
         if (from_id == ADMIN_USER_ID && to_id == userid) {
+            const textMessageWrapper = document.createElement('div');
+            textMessageWrapper.classList += " w-full flex flex-col mb-2 last:mb-0 "
             const textMessage = document.createElement("p");
             textMessage.innerText = text;
-            // i kaire nes gauni message
-            textMessage.classList.add('text-left');
-            textWindow.insertAdjacentHTML('afterend', textMessage.outerHTML.toString())
-            /* textWindow.appendChild(textMessage); */
+            textMessage.classList += ' p-2 border-2 border-gray-300 rounded-md w-max';
+
+            textMessageWrapper.classList.add('items-start');
+            textMessageWrapper.appendChild(textMessage);
+
+            textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString())
+
         }
     });
 
@@ -124,15 +136,25 @@
         if (messageData) {
             messageData.forEach((message) => {
                 // i kaire siuntei ne tu, i desine jeigu siuntei tu
+                /* const textMessage = document.createElement("p");
+                textMessage.innerText = message.text; */
+
+                const textMessageWrapper = document.createElement('div');
+                textMessageWrapper.classList += " w-full flex flex-col mb-2 last:mb-0 "
                 const textMessage = document.createElement("p");
                 textMessage.innerText = message.text;
+                textMessage.classList += ' p-2 border-2 border-gray-300 rounded-md w-fit';
+
                 if (message.from_id == userid) {
-                    textMessage.classList.add('text-right');
+                    textMessageWrapper.classList.add('items-end');
                 }
                 if (message.to_id == userid) {
-                    textMessage.classList.add('text-left');
+                    textMessageWrapper.classList.add('items-start');
                 }
-                textWindow.insertAdjacentHTML('afterend', textMessage.outerHTML.toString())
+
+                textMessageWrapper.appendChild(textMessage);
+
+                textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString())
             })
         }
     }
@@ -161,12 +183,17 @@
                 'X-Socket-Id': pusher.connection.socket_id
             }
         }).then((res) => {
+            const textMessageWrapper = document.createElement('div');
+            textMessageWrapper.classList += " w-full flex flex-col mb-2 last:mb-0 "
             const textMessage = document.createElement("p");
             textMessage.innerText = inputValue;
-            // i desine nes siuntei tu
-            textMessage.classList.add('text-right');
-            textWindow.insertAdjacentHTML('afterend', textMessage.outerHTML.toString())
-            /* textWindow.appendChild(textMessage); */
+            textMessage.classList += ' p-2 border-2 border-gray-300 rounded-md w-max';
+
+            textMessageWrapper.classList.add('items-start');
+            textMessageWrapper.appendChild(textMessage);
+
+            textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString())
+            
             document.querySelector("#message").value = "";
         }).catch((err) => {
             // nudazyti teksta pilkai parodyti errora, o paclickinus iskarto ideti teksta zinai uzer fedback gersnis.
