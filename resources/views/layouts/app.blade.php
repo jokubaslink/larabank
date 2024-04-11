@@ -42,24 +42,25 @@
         </main>
         <div class="absolute right-20 bottom-10 flex flex-col items-end justify-center">
             <div
-                class="chatWindow hidden bg-white border-gray-300 rounded-md border-2 p-1 w-[300px] h-[360px] shadow-lg items-start justify-start">
+                class="chatWindow hidden bg-white border-gray-300 rounded-md border-2 p-1 w-[340px] h-[420px] shadow-lg items-start justify-start">
                 <div class="h-full relative w-full flex flex-col items-center">
-                    <div class="chatBox p-1 w-full h-4/5 overflow-y-auto">
-                        <div class="chatBox-title bg-red-500 sticky top-0 w-full">
-                            <button class="absolute top-1 left-2"  onclick="closeWindow()"><i
-                                    class="fa-solid fa-x text-xl text-gray-300"></i></button>
-                                    {{-- class="absolute top-2 left-2" --}}
-                            <h3 class="text-center  text-lg  mb-2">Ask our admins a
-                                question</h3>
-                        </div>
+                    <div class="chatBox p-1 w-full h-5/6 overflow-y-auto">
+                        <button class=" rounded-full bg-white absolute top-2 h-[35px] w-[35px] flex items-center justify-center" onclick="closeWindow()"><i
+                                class="fa-solid fa-x text-lg text-gray-300"></i></button>
+                        {{-- class="absolute top-2 left-2" --}}
+                        <h3 class="text-center  text-lg  mb-2 p-2 items-center w-full chatBox-title">Ask our
+                            admins a
+                            question
+                        </h3>
+
 
                     </div>
 
-                    <div class="absolute bottom-0 flex gap-2 items-center justify-center h-1/5">
+                    <div class="absolute bottom-0 flex gap-2 items-center justify-center h-1/6 w-full">
                         <input id="message" name="message" type="text" placeholder="Type in your message"
                             class="rounded-md">
                         <button class="p-2 h-[40px] w-[40px] text-center" id="send-button"><i
-                                class="fa-solid fa-paper-plane text-xl text-red-500"></i></button>
+                                class="fa-solid fa-paper-plane text-2xl text-red-500"></i></button>
                     </div>
 
                 </div>
@@ -113,13 +114,12 @@
             textMessageWrapper.classList += " w-full flex flex-col mb-2 last:mb-0 "
             const textMessage = document.createElement("p");
             textMessage.innerText = text;
-            textMessage.classList += ' p-2 border-2 border-gray-300 rounded-md w-max';
+            textMessage.classList += ' p-2 border-2 border-gray-300 rounded-md w-fit';
 
             textMessageWrapper.classList.add('items-start');
             textMessageWrapper.appendChild(textMessage);
 
             textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString())
-
         }
     });
 
@@ -187,13 +187,14 @@
             textMessageWrapper.classList += " w-full flex flex-col mb-2 last:mb-0 "
             const textMessage = document.createElement("p");
             textMessage.innerText = inputValue;
-            textMessage.classList += ' p-2 border-2 border-gray-300 rounded-md w-max';
+            textMessage.classList += ' p-2 border-2 border-gray-300 rounded-md w-fit';
 
-            textMessageWrapper.classList.add('items-start');
+            textMessageWrapper.classList.add('items-end');
             textMessageWrapper.appendChild(textMessage);
 
-            textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString())
-            
+            /* textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString()) */
+            document.querySelector('.chatBox').appendChild(textMessageWrapper);
+
             document.querySelector("#message").value = "";
         }).catch((err) => {
             // nudazyti teksta pilkai parodyti errora, o paclickinus iskarto ideti teksta zinai uzer fedback gersnis.

@@ -85,13 +85,16 @@ Route::post('/admin/chat/receive', function (Request $request) {
 Route::get('/admin/recent-transactions', [AdminController::class, 'showRecentTransactions'])->middleware(['auth', 'verified'])->name('admin.transactions');
 
 Route::get('/chat/fetch', function (Request $request) {
-    $fromUser =  $request->get('from_id');
+    $fromUser = $request->get('from_id');
     $toUser =  $request->get('to_id');
-    
-    $userSentMessages = ChatMessages::where('from_id', $fromUser)->where('to_id', $toUser)->get()->toArray();
-    $userReceivedMessages = ChatMessages::where('from_id', $toUser)->where('to_id', $fromUser)->get()->toArray();
 
-    $chatMessages = array_merge($userSentMessages, $userReceivedMessages);
+    $chatMessages = ChatMessages::where(function ($query) use ($request) {
+        $query->where('from_id', '=', $request->get('from_id'))
+            ->orWhere('from_id', '=', $request->get('to_id'));
+    })->where(function ($query) use ($request) {
+        $query->where('to_id', '=', $request->get('from_id'))
+            ->orWhere('to_id', '=', $request->get('to_id'));
+    })->orderBy('created_at', 'desc')->get();
 
     return response()->json($chatMessages);
 });

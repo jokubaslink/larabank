@@ -12,7 +12,7 @@
         <div class="relative w-3/4 h-full ml-2">
             @if ($id)
                 <div class="chatting message-{{ $id }}">
-                    <h3 class="text-xl font-bold chatting-title"></h3>
+                    <h3 class="text-xl font-bold chatting-title">User {{ $id }} chat </h3>
                 </div>
             @else
                 <div class="chatting flex flex-col gap-2">
@@ -61,6 +61,8 @@
 
         const to_id = document.querySelector('.to_id').value;
 
+        console.log(to_id);
+
         async function fetchMessages() {
             const result = await axios.get('/chat/fetch', {
                 params: {
@@ -77,7 +79,7 @@
                     textMessageWrapper.classList += " w-full flex flex-col mb-2 last:mb-0 "
                     const textMessage = document.createElement("p");
                     textMessage.innerText = message.text;
-                    textMessage.classList += ' p-2 border-2 border-gray-300 rounded-md w-max  ';
+                    textMessage.classList += ' p-2 border-2 border-gray-300 rounded-md w-fit  ';
                     if (message.from_id == userid) {
                         textMessageWrapper.classList.add('items-end');
                     }
@@ -88,6 +90,7 @@
                     /* textWindow.parentNode.insertBefore(textMessage, textWindow.nextSibling) */
                     textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString())
                     /* textWindow.appendChild(textMessage); */
+
                 })
             }
         }
@@ -112,10 +115,16 @@
                         from_id,
                         to_id
                     } = data.message;
+                    const textMessageWrapper = document.createElement('div');
+                    textMessageWrapper.classList += " w-full flex flex-col mb-2 last:mb-0 "
                     const textMessage = document.createElement("p");
                     textMessage.innerText = text;
-                    textMessage.classList.add('text-left');
-                    textWindow.insertAdjacentHTML('afterend', textMessage.outerHTML.toString())
+                    textMessage.classList += ' p-2 border-2 border-gray-300 rounded-md w-fit  ';
+                    textMessageWrapper.classList.add('items-start');
+
+                    textMessageWrapper.appendChild(textMessage);
+                    /* textWindow.parentNode.insertBefore(textMessage, textWindow.nextSibling) */
+                    textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString())
                     /* textWindow.parentNode.insertBefore(textMessage, textWindow.nextSibling) */
                     /* textWindow.appendChild(textMessage); */
                 } else {
@@ -137,7 +146,7 @@
                 message: {
                     text: document.querySelector("#message").value,
                     from_id: userid,
-                    to_id: sendToId,
+                    to_id: to_id,
                 }
             }, {
                 headers: {
@@ -145,13 +154,20 @@
                     "Content-Type": "application/json"
                 }
             }).then((res) => {
-                console.log(res);
+                e.preventDefault();
+                const textMessageWrapper = document.createElement('div');
+                textMessageWrapper.classList += " w-full flex flex-col mb-2 last:mb-0 "
                 const textMessage = document.createElement("p");
-                textMessage.innerText = inputValue;
-                textMessage.classList.add('text-right');
-                textWindow.insertAdjacentHTML('afterend', textMessage.outerHTML.toString())
+                textMessage.innerText = document.querySelector("#message").value;
+                textMessage.classList += ' p-2 border-2 border-gray-300 rounded-md w-fit  ';
+
+                textMessageWrapper.classList.add('items-end');
+
+                textMessageWrapper.appendChild(textMessage);
                 /* textWindow.parentNode.insertBefore(textMessage, textWindow.nextSibling) */
-                /* textWindow.appendChild(textMessage); */
+                /* textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString()) */
+                /* textWindow.parentNode.insertBefore(textMessage, textWindow.nextSibling) */
+                textWindow.appendChild(textMessageWrapper);
                 document.querySelector("#message").value = "";
             }).catch((err) => {
                 console.error('rags:', err);
