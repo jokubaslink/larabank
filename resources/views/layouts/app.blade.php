@@ -15,6 +15,8 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://kit.fontawesome.com/8e71c0bf67.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
 
 </head>
 
@@ -45,8 +47,9 @@
                 class="chatWindow hidden bg-white border-gray-300 rounded-md border-2 p-1 w-[340px] h-[420px] shadow-lg items-start justify-start">
                 <div class="h-full relative w-full flex flex-col items-center">
                     <div class="chatBox p-1 w-full h-5/6 overflow-y-auto">
-                        <button class=" rounded-full bg-white absolute top-2 h-[35px] w-[35px] flex items-center justify-center" onclick="closeWindow()"><i
-                                class="fa-solid fa-x text-lg text-gray-300"></i></button>
+                        <button
+                            class=" rounded-full bg-white absolute top-2 h-[35px] w-[35px] flex items-center justify-center"
+                            onclick="closeWindow()"><i class="fa-solid fa-x text-lg text-gray-300"></i></button>
                         {{-- class="absolute top-2 left-2" --}}
                         <h3 class="text-center  text-lg  mb-2 p-2 items-center w-full chatBox-title">Ask our
                             admins a
@@ -119,7 +122,14 @@
             textMessageWrapper.classList.add('items-start');
             textMessageWrapper.appendChild(textMessage);
 
-            textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString())
+            if (document.querySelector('.chatBox >div:last-child')) {
+                document.querySelector('.chatBox >div:last-child').insertAdjacentHTML('afterend',
+                    textMessageWrapper.outerHTML.toString());
+            } else {
+                textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString());
+            }
+
+            document.querySelector('.chatBox >div:last-child').scrollIntoView();
         }
     });
 
@@ -155,6 +165,8 @@
                 textMessageWrapper.appendChild(textMessage);
 
                 textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString())
+
+                document.querySelector('.chatBox >div:last-child').scrollIntoView();
             })
         }
     }
@@ -170,6 +182,10 @@
     submitButton.addEventListener('click', (e) => {
         e.preventDefault();
         const inputValue = document.querySelector("#message").value;
+
+        if (inputValue === '' || !inputValue || inputValue === ' ') {
+            return;
+        }
         console.log('1')
         axios.post("/admin/chat/send", {
             _token: '{{ csrf_token() }}',
@@ -196,6 +212,8 @@
             document.querySelector('.chatBox').appendChild(textMessageWrapper);
 
             document.querySelector("#message").value = "";
+
+            document.querySelector('.chatBox >div:last-child').scrollIntoView();
         }).catch((err) => {
             // nudazyti teksta pilkai parodyti errora, o paclickinus iskarto ideti teksta zinai uzer fedback gersnis.
             console.error('er', err)
@@ -210,6 +228,8 @@
     function openWindow() {
         chatWidgetWindow.classList.replace("hidden", "flex");
         chatWidgetButton.classList.replace("flex", 'hidden');
+
+        document.querySelector('.chatBox >div:last-child').scrollIntoView();
     }
 
     function closeWindow() {

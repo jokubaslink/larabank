@@ -11,17 +11,16 @@
         </div>
         <div class="relative w-3/4 h-full ml-2">
             @if ($id)
-                <div class="chatting message-{{ $id }}">
+                <div class="chatting message-{{ $id }} overflow-y-scroll h-[92.5%]">
                     <h3 class="text-xl font-bold chatting-title">User {{ $id }} chat </h3>
                 </div>
             @else
-                <div class="chatting flex flex-col gap-2">
+                <div class="chatting flex flex-col gap-2  h-[92.5%]">
                     <h3 class="chatting-message text-4xl text-red-500">Select a chat</h3>
                 </div>
             @endif
 
-            <div class="w-full absolute bottom-0 flex gap-2">
-
+            <div class="w-full absolute bottom-0 flex gap-2 h-[7.5%]">
                 <input class="max-w-[600px] w-full rounded-md" id="message" type="text" placeholder="Enter message"
                     name="message">
                 <input class="to_id" type="text" hidden value="{{ $id }}" name="id">
@@ -51,6 +50,8 @@
         /* var channel = pusher.subscribe('channel'); */
 
         const textWindow = document.querySelector('.chatting-title');
+
+        const chatWindow = document.querySelector('.chatting');
         const messageValue = document.querySelector("#message").value;
         const submitButton = document.querySelector('#send-button');
 
@@ -90,6 +91,7 @@
                     /* textWindow.parentNode.insertBefore(textMessage, textWindow.nextSibling) */
                     textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString())
                     /* textWindow.appendChild(textMessage); */
+                    document.querySelector('.chatting >div:last-child').scrollIntoView();
 
                 })
             }
@@ -106,10 +108,11 @@
             /*  const channelName = 'channel-'+id; */
 
             messageIndentificator = 'message-' + id;
-            const indState = textWindow.classList.contains(messageIndentificator);
+            const indState = chatWindow.classList.contains(messageIndentificator);
             if (indState) sendToId = id;
             channel.bind(messageIndentificator, function(data) {
                 if (indState) {
+                    console.log('ZJBS ', id);
                     const {
                         text,
                         from_id,
@@ -124,10 +127,19 @@
 
                     textMessageWrapper.appendChild(textMessage);
                     /* textWindow.parentNode.insertBefore(textMessage, textWindow.nextSibling) */
-                    textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString())
+                    if (document.querySelector('.chatting >div:last-child')) {
+                        document.querySelector('.chatting >div:last-child').insertAdjacentHTML('afterend',
+                            textMessageWrapper.outerHTML.toString())
+                    } else {
+                        textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString())
+                    }
                     /* textWindow.parentNode.insertBefore(textMessage, textWindow.nextSibling) */
                     /* textWindow.appendChild(textMessage); */
+
+                    document.querySelector('.chatting >div:last-child').scrollIntoView();
+
                 } else {
+                    console.log('xujne')
                     const selectorClass = '.messageSelector-' + id;
                     const selector = document.querySelector(selectorClass);
                     selector.classList.add('bg-red-300');
@@ -140,6 +152,11 @@
         submitButton.addEventListener('click', (e) => {
             e.preventDefault();
             const inputValue = document.querySelector("#message").value;
+
+            if(inputValue === '' || !inputValue || inputValue === ' '){
+                return;
+            }
+
             const url = "/admin/chat/send";
             axios.post(url, {
                 _token: '{{ csrf_token() }}',
@@ -165,10 +182,18 @@
 
                 textMessageWrapper.appendChild(textMessage);
                 /* textWindow.parentNode.insertBefore(textMessage, textWindow.nextSibling) */
-                /* textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString()) */
+
+                if (document.querySelector('.chatting >div:last-child')) {
+                    document.querySelector('.chatting >div:last-child').insertAdjacentHTML('afterend',
+                        textMessageWrapper.outerHTML.toString())
+                } else {
+                    textWindow.insertAdjacentHTML('afterend', textMessageWrapper.outerHTML.toString())
+                }
                 /* textWindow.parentNode.insertBefore(textMessage, textWindow.nextSibling) */
-                textWindow.appendChild(textMessageWrapper);
+                /* textWindow.appendChild(textMessageWrapper); */
                 document.querySelector("#message").value = "";
+                document.querySelector('.chatting >div:last-child').scrollIntoView();
+
             }).catch((err) => {
                 console.error('rags:', err);
             })
