@@ -12,6 +12,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{asset('css/output.css')}}">
     <!-- Styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
     @vite('resources/css/app.css')
 </head>
@@ -49,22 +50,23 @@
                 @endif
             </nav>
 
-            <div class="h-screen  mt-16">
+            <div class="h-full mt-16 mb-32"> {{-- 64 --}}
                 <div class="mt-16 text-center mx-auto p-6 lg:p-8">
-                    <h1 class="text-7xl font-bold text-red-500 ">Larabank</h1>
+                    <h1 class="text-6xl sm:text-7xl font-bold text-red-500 ">Larabank</h1>
                     <p class="">The greatest web bank application</p>
                 </div>
 
                 <figure class="max-w-[500px] w-full">
                     <img class="w-full" src="{{ asset('undraw_vault_re_s4my.svg') }}" alt="">
                 </figure>
+
             </div>
 
-            <div class="p-8 h-screen w-full" id="about">
+            <div class="p-8 h-full w-full mb-32" id="about">
                 <div class="w-full">
-                    <h1 class="text-start font-bold text-6xl text-red-500">About us</h1>
+                    <h1 class="text-start font-bold text-5xl sm:text-6xl text-red-500">About us</h1>
 
-                    <p class="mt-4 max-w-[600px] w-full text-xl italic">Lorem ipsum, dolor sit amet consectetur
+                    <p class="mt-4 max-w-[600px] w-full text-lg sm:text-xl italic">Lorem ipsum, dolor sit amet consectetur
                         adipisicing
                         elit.
                         Quos tempora nihil soluta quisquam quasi in exercitationem, sunt laudantium, minima fuga iste
@@ -72,7 +74,7 @@
                         magnam molestias velit eos neque dicta dolores nam.</p>
                 </div>
 
-                <div class="mt-12 grid grid-rows-1 grid-cols-3 gap-8">
+                <div class="mt-12 grid grid-rows-3 grid-cols-1 sm:grid-rows-2 lg:grid-rows-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
                     <div class="shadow-2xl border-2 border-gray-300 rounded-md p-4">
                         <h3 class="font-bold text-2xl">Save</h3>
@@ -98,12 +100,12 @@
                 </div>
 
             </div>
-            <div class="h-screen w-full" id="contact">
+            <div class="h-full w-full" id="contact">
                 <div class="p-8 items-end justify-center flex-col md:flex-row flex gap-2">
                     <div class="lg:w-1/2">
-                        <h1 class="text-start font-bold text-6xl text-red-500">Contact us</h1>
+                        <h1 class="text-start font-bold text-5xl sm:text-6xl text-red-500">Contact us</h1>
     
-                        <p class="mt-4 max-w-[600px] w-full text-xl italic mb-4">Lorem ipsum, dolor sit amet consectetur
+                        <p class="mt-4 max-w-[600px] w-full text-lg sm:text-xl italic mb-4">Lorem ipsum, dolor sit amet consectetur
                             adipisicing
                             elit.
                             Quos tempora nihil soluta quisquam quasi in exercitationem, sunt laudantium, minima fuga iste
