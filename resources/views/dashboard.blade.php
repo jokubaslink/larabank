@@ -8,9 +8,9 @@
 
     @if (!Auth::user()->user_verified_at)
         <div class="p-4">
-            To get full access to the bank, you need to complete identity verification!
+            For full access, you need to complete identity verification!
 
-            <a class="border-b-2 border-gray-300" href="{{ route('profile.identity') }}">Complete identity
+            <a class="font-bold border-b-2 border-gray-300" href="{{ route('profile.identity') }}">Complete identity
                 verification</a>
         </div>
     @else

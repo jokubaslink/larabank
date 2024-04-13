@@ -40,6 +40,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->middleware(['auth', 'verified'])->name('admin.dashboard');
+
+Route::get('/admin/transactions', [AdminController::class, 'showTransactions'])->middleware(['auth', 'verified'])->name('admin.transactions');
+
 Route::get('/admin/dashboard/kyc', [AdminController::class, 'kycDashboard'])->middleware(['auth', 'verified'])->name('admin.kyc');
 Route::get('/admin/dashboard/kyc/info/{user_id}', [AdminController::class, 'kycInfo'])->middleware(['auth', 'verified'])->name('admin.kycInfo');
 Route::post('/admin/dashboard/kyc/{user_id}', [AdminController::class, 'kycVerify'])->middleware(['auth', 'verified'])->name('admin.kycVerify');
@@ -81,8 +84,6 @@ Route::post('/admin/chat/receive', function (Request $request) {
 
     return view('admin.chat', compact(/* 'message',  */'ids', 'count'));
 });
-
-Route::get('/admin/recent-transactions', [AdminController::class, 'showRecentTransactions'])->middleware(['auth', 'verified'])->name('admin.transactions');
 
 Route::get('/chat/fetch', function (Request $request) {
     $fromUser = $request->get('from_id');

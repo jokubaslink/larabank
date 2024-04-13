@@ -15,6 +15,8 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/8e71c0bf67.js" crossorigin="anonymous"></script>
+
 
 </head>
 
@@ -47,7 +49,7 @@
                 <button type="submit">Logout</button>
             </form>
         </nav>
-        <main class="p-16">
+        <main class="p-12">
             {{ $slot }}
         </main>
     </div>

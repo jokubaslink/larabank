@@ -39,7 +39,7 @@
                 <button type="submit">Logout</button>
             </form>
         </nav>
-        <main class="p-16">
+        <main class="p-12">
             {{ $slot }}
         </main>
         <div class="absolute w-full sm:right-20 bottom-10 flex flex-col items-center sm:items-end justify-center">

@@ -31,7 +31,7 @@
                 placeholder="Enter your password" required>
         </div>
 
-        <button class="border-2 border-gray-300 p-2 rounded-md shadow-lg w-[200px] h-[50px]" type="submit">Submit
+        <button class="border-2 border-gray-300 p-2 rounded-md shadow-lg max-w-[200px] w-full h-[50px]" type="submit">Submit
             verification</button>
     </form>
 

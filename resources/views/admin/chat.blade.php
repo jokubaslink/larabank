@@ -3,8 +3,8 @@
         <div class="w-1/4  h-full flex flex-col mr-2 overflow-y-scroll">
             @foreach ($ids as $selectionId)
                 <a href="{{ route('admin.chatWindow', $selectionId) }}" class="mb-2 last:mb-0">
-                    <div class="border-2 border-gray-300 rounded-md shadow-lg p-2 h-[80px] w-full messageSelector-{{ $selectionId }}"
-                        onclick="selectEvent({{ $selectionId }})">User_ID -
+                    <div class="text-center text-md sm:text-lg border-2 border-gray-300 rounded-md shadow-lg p-2 h-[80px] w-full messageSelector-{{ $selectionId }}"
+                        onclick="selectEvent({{ $selectionId }})">ID -
                         {{ $selectionId }}</div>
                 </a>
             @endforeach
@@ -20,12 +20,12 @@
                 </div>
             @endif
 
-            <div class="w-full absolute bottom-0 flex gap-2 h-[7.5%]">
-                <input class="max-w-[600px] w-full rounded-md" id="message" type="text" placeholder="Enter message"
+            <div class="w-full absolute bottom-0 flex gap-2 h-[7.5%] items-center justify-center">
+                <input class="max-w-[600px] w-full rounded-md" id="message" type="text" placeholder="Message"
                     name="message">
                 <input class="to_id" type="text" hidden value="{{ $id }}" name="id">
-                <button class="p-2 border-2 border-gray-300 rounded-md w-[150px] h-[50px]" id="send-button">Send
-                    message</button>
+                <button class="p-2" id="send-button"><i
+                    class="fa-solid fa-paper-plane text-2xl text-gray-500"></i></button>
 
             </div>
         </div>

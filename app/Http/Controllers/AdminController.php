@@ -23,7 +23,10 @@ class AdminController extends Controller
     }
 
     public function kycInfo($user_id){
-        return view('admin.kyc-info', compact('user_id'));
+        $userInfo = User::where('id', $user_id)->first();
+        $userSubInfo = Verifications::where('user_id', $user_id)->first();
+
+        return view('admin.kyc-info', compact('userInfo','userSubInfo'));
     }
 
     public function kycVerify($user_id)
@@ -83,9 +86,10 @@ class AdminController extends Controller
         return view('admin.chat', compact('id', 'ids', 'count'));
     }
 
-    public function showRecentTransactions(){
+    public function showTransactions(){
         $transactions = Transactions::get();
 
-        return view('admin.recent-transactions', compact('transactions'));
+        return view('admin.transactions', compact('transactions'));
     }
+
 }
