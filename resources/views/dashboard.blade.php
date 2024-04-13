@@ -6,6 +6,7 @@
         <p class="text-3xl lg:text-4xl font-bold text-green-300">{{ Session::get('success') }}</p>
     @endif
 
+
     @if (!Auth::user()->user_verified_at)
         <div class="p-4">
             For full access, you need to complete identity verification!

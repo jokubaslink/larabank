@@ -26,30 +26,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/dashboard', function () {
-
     $user = Auth::user();
 
     return view('dashboard', compact('user'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->middleware(['auth', 'verified'])->name('admin.dashboard');
-
-Route::get('/admin/transactions', [AdminController::class, 'showTransactions'])->middleware(['auth', 'verified'])->name('admin.transactions');
-
-Route::get('/admin/dashboard/kyc', [AdminController::class, 'kycDashboard'])->middleware(['auth', 'verified'])->name('admin.kyc');
-Route::get('/admin/dashboard/kyc/info/{user_id}', [AdminController::class, 'kycInfo'])->middleware(['auth', 'verified'])->name('admin.kycInfo');
-Route::post('/admin/dashboard/kyc/{user_id}', [AdminController::class, 'kycVerify'])->middleware(['auth', 'verified'])->name('admin.kycVerify');
-Route::get('/admin/chat', [AdminController::class, 'chat'])->middleware(['auth', 'verified'])->name('admin.chat');
-
-Route::get('/admin/chat/{id}', [AdminController::class, 'chatWindow'])->middleware(['auth', 'verified'])->name('admin.chatWindow');
-
+/* ADMIN */
+Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->middleware(['auth', 'verified', 'isAdmin'])->name('admin.dashboard');
+Route::get('/admin/transactions', [AdminController::class, 'showTransactions'])->middleware(['auth', 'verified', 'isAdmin'])->name('admin.transactions');
+Route::get('/admin/dashboard/kyc', [AdminController::class, 'kycDashboard'])->middleware(['auth', 'verified', 'isAdmin'])->name('admin.kyc');
+Route::get('/admin/dashboard/kyc/info/{user_id}', [AdminController::class, 'kycInfo'])->middleware(['auth', 'verified', 'isAdmin'])->name('admin.kycInfo');
+Route::post('/admin/dashboard/kyc/{user_id}', [AdminController::class, 'kycVerify'])->middleware(['auth', 'verified', 'isAdmin'])->name('admin.kycVerify');
+Route::get('/admin/chat', [AdminController::class, 'chat'])->middleware(['auth', 'verified', 'isAdmin'])->name('admin.chat');
+Route::get('/admin/chat/{id}', [AdminController::class, 'chatWindow'])->middleware(['auth', 'verified', 'isAdmin'])->name('admin.chatWindow');
 Route::post('/admin/chat/send', function (Request $request) {
     $user_ids = User::pluck('id')->toArray();
     $admin_id = User::where('name', "admin")->first()->id;
@@ -71,7 +65,7 @@ Route::post('/admin/chat/send', function (Request $request) {
     ]);
 
     return view('admin.chat', compact('id', 'message', 'ids', 'count'));
-});
+})->middleware(['auth', 'verified']);
 Route::post('/admin/chat/receive', function (Request $request) {
     $user_ids = User::pluck('id')->toArray();
     $admin_id = User::where('name', "admin")->first()->id;
@@ -83,8 +77,7 @@ Route::post('/admin/chat/receive', function (Request $request) {
     $message = $request->get('message');
 
     return view('admin.chat', compact(/* 'message',  */'ids', 'count'));
-});
-
+})->middleware(['auth', 'verified']);
 Route::get('/chat/fetch', function (Request $request) {
     $fromUser = $request->get('from_id');
     $toUser =  $request->get('to_id');
@@ -98,20 +91,19 @@ Route::get('/chat/fetch', function (Request $request) {
     })->orderBy('created_at', 'desc')->get();
 
     return response()->json($chatMessages);
-});
+})->middleware(['auth', 'verified']);
 /* ADMIN  */
 
-Route::get('/dashboard/advice', [ProfileController::class, 'showAdvice'])->middleware(['auth', 'verified'])->name('show.advice');
-Route::get('/dashboard/stocks', [ProfileController::class, 'showStocks'])->middleware(['auth', 'verified'])->name('show.stocks');
-Route::post('/dashboard/stocks', [ProfileController::class, 'buyStock'])->middleware(['auth', 'verified'])->name('stock.buy');
-Route::get('/dashboard/portfolio', [ProfileController::class, 'showPortfolio'])->middleware(['auth', 'verified'])->name('portfolio.show');
-Route::get('/dashboard/transactions', [ProfileController::class, 'showTransactions'])->middleware(['auth', 'verified'])->name('profile.transactions');
-Route::get('/dashboard/credit-card', [ProfileController::class, 'showCreditCard'])->middleware(['auth', 'verified'])->name('profile.credit-card');
-Route::get('/dashboard/transaction', [ProfileController::class, 'showTransaction'])->middleware(['auth', 'verified'])->name('reg.transaction');
-Route::post('/dashboard/transaction', [ProfileController::class, 'makeTransaction'])->middleware(['auth', 'verified'])->name('make.transaction');
-
-Route::get('/dashboard/advice', [GPTController::class, 'showAdvice'])->middleware(['auth', 'verified'])->name('profile.advice');
-Route::post('/dashboard/get-advice', [GPTController::class, 'getAdvice'])->middleware(['auth', 'verified'])->name('profile.getAdvice');
+Route::get('/dashboard/advice', [ProfileController::class, 'showAdvice'])->middleware(['auth', 'verified', 'isKYCVerified'])->name('show.advice');
+Route::get('/dashboard/stocks', [ProfileController::class, 'showStocks'])->middleware(['auth', 'verified', 'isKYCVerified'])->name('show.stocks');
+Route::post('/dashboard/stocks', [ProfileController::class, 'buyStock'])->middleware(['auth', 'verified', 'isKYCVerified'])->name('stock.buy');
+Route::get('/dashboard/portfolio', [ProfileController::class, 'showPortfolio'])->middleware(['auth', 'verified', 'isKYCVerified'])->name('portfolio.show');
+Route::get('/dashboard/transactions', [ProfileController::class, 'showTransactions'])->middleware(['auth', 'verified', 'isKYCVerified'])->name('profile.transactions');
+Route::get('/dashboard/credit-card', [ProfileController::class, 'showCreditCard'])->middleware(['auth', 'verified', 'isKYCVerified'])->name('profile.credit-card');
+Route::get('/dashboard/transaction', [ProfileController::class, 'showTransaction'])->middleware(['auth', 'verified', 'isKYCVerified'])->name('reg.transaction');
+Route::post('/dashboard/transaction', [ProfileController::class, 'makeTransaction'])->middleware(['auth', 'verified', 'isKYCVerified'])->name('make.transaction');
+Route::get('/dashboard/advice', [GPTController::class, 'showAdvice'])->middleware(['auth', 'verified', 'isKYCVerified'])->name('profile.advice');
+Route::post('/dashboard/get-advice', [GPTController::class, 'getAdvice'])->middleware(['auth', 'verified', 'isKYCVerified'])->name('profile.getAdvice');
 
 
 Route::get('/about-us', function () {
