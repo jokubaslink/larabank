@@ -1,6 +1,6 @@
 <x-admin-layout>
     <div class="p-2 shadow-xl chatWindow w-full flex items-center justify-center h-[600px] gap-2">
-        <div class="w-1/4  h-full flex flex-col mr-2">
+        <div class="w-1/4  h-full flex flex-col mr-2 overflow-y-scroll">
             @foreach ($ids as $selectionId)
                 <a href="{{ route('admin.chatWindow', $selectionId) }}" class="mb-2 last:mb-0">
                     <div class="border-2 border-gray-300 rounded-md shadow-lg p-2 h-[80px] w-full messageSelector-{{ $selectionId }}"

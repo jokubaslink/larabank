@@ -21,7 +21,7 @@
 </head>
 
 <body class="bg-gray-100 font-sans antialiased">
-    <div class="relative min-h-screen m-auto max-w-[1200px] w-full dark:bg-gray-900">
+    <div class="relative min-h-screen m-auto max-w-[1200px] w-full dark:bg-gray-900 ">
         <nav class="flex items-center justify-between p-4">
             <?php
             $currentRouteName = Route::currentRouteName();
@@ -42,16 +42,16 @@
         <main class="p-16">
             {{ $slot }}
         </main>
-        <div class="absolute right-20 bottom-10 flex flex-col items-end justify-center">
+        <div class="absolute w-full sm:right-20 bottom-10 flex flex-col items-center sm:items-end justify-center">
             <div
-                class="chatWindow hidden bg-white border-gray-300 rounded-md border-2 p-1 w-[340px] h-[420px] shadow-lg items-start justify-start">
+                class="chatWindow hidden bg-white border-gray-300 rounded-md border-2 p-1 w-3/4 sm:w-[340px] h-[420px] shadow-lg items-start justify-start">
                 <div class="h-full relative w-full flex flex-col items-center">
                     <div class="chatBox p-1 w-full h-5/6 overflow-y-auto">
                         <button
                             class=" rounded-full bg-white absolute top-2 h-[35px] w-[35px] flex items-center justify-center"
                             onclick="closeWindow()"><i class="fa-solid fa-x text-lg text-gray-300"></i></button>
                         {{-- class="absolute top-2 left-2" --}}
-                        <h3 class="text-center  text-lg  mb-2 p-2 items-center w-full chatBox-title">Ask our
+                        <h3 class="text-center text-lg max-w-[200px] w-full mx-auto  mb-2 p-2 items-center sm:max-w-full sm:m-0 chatBox-title">Ask our
                             admins a
                             question
                         </h3>
@@ -61,18 +61,17 @@
 
                     <div class="absolute bottom-0 flex gap-2 items-center justify-center h-1/6 w-full">
                         <input id="message" name="message" type="text" placeholder="Type in your message"
-                            class="rounded-md">
+                            class="rounded-md w-full">
                         <button class="p-2 h-[40px] w-[40px] text-center" id="send-button"><i
                                 class="fa-solid fa-paper-plane text-2xl text-red-500"></i></button>
                     </div>
-
                 </div>
             </div>
 
-            <button
-                class="p-4 h-[60px] w-[60px] rounded-full bg-white border-gray-300 text-white chatButton flex items-center justify-center"
-                onclick="openWindow()"><i class="fa-brands fa-rocketchat text-3xl text-red-500"></i></button>
         </div>
+        <button
+            class="fixed right-20 bottom-10 p-4 h-[60px] w-[60px] rounded-full bg-white border-gray-300 text-white chatButton flex items-center justify-center"
+            onclick="openWindow()"><i class="fa-brands fa-rocketchat text-3xl text-red-500"></i></button>
     </div>
 </body>
 

@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <h1 class="text-6xl sm:text-7xl text-red-500 font-bold mt-4 mb-4">Welcome, {{ Auth::user()->name }}</h1>
+    <h1 class="text-5xl sm:text-7xl text-red-500 font-bold mt-4 mb-4">Welcome, {{ Auth::user()->name }}</h1>
 
     @if (Session::has('success'))
         <p class="text-3xl lg:text-4xl font-bold text-green-300">{{ Session::get('success') }}</p>

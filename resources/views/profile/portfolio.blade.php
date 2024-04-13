@@ -1,5 +1,5 @@
 <x-app-layout>
-    <h3 class="text-4xl mb-4">{{ Auth::user()->name }} portfolio</h3>
+    <h3 class="text-center text-4xl mb-4">{{ Auth::user()->name }} portfolio</h3>
 
     <?php
     $portfolio_firstWorth = 0;
@@ -20,10 +20,13 @@
             $portfolio_currentWorth += $currentShareWorth;
             ?>
 
-            <li class="border-b-2 border-gray-300 p-2 flex items-center justify-center gap-4">
-                <h6 class="text-2xl">{{ $stock->share_name }}</h6>
-                <p class="text-xl ">{{ $stock->share_amount }}</p>
-                <p class="text-xl font-bold text-gray-300">{{ $stock->share_worth }}&euro; ->
+            <li class="border-b-2 border-gray-300 p-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <div class="flex items-center justify-center gap-2">
+                    <h6 class="text-2xl">{{ $stock->share_name }}</h6>
+                    <p class="text-xl ">{{ $stock->share_amount }}</p>
+                </div>
+
+                <p class="text-xl text-center font-bold text-gray-300">{{ $stock->share_worth }}&euro; &roarr;
                     <span
                         class="{{ $currentShareWorth > $stock->share_worth ? 'text-green-500' : 'text-red-500' }}">{{ $currentShareWorth }}
                         &euro;</span>
@@ -32,8 +35,8 @@
         @endforeach
     </ul>
 
-    <h3 class="text-4xl mt-4">
-        <span class="text-gray-300">{{ $portfolio_firstWorth }}&euro;</span> -> <span
+    <h3 class="text-center text-3xl sm:text-4xl mt-4">
+        <span class="text-gray-300">{{ $portfolio_firstWorth }}&euro;</span> &roarr; <span
             class="{{ $portfolio_currentWorth > $portfolio_firstWorth ? 'text-green-500' : 'text-red-500' }}">{{ $portfolio_currentWorth }}&euro;</span>
     </h3>
 
