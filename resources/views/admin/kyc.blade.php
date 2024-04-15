@@ -26,6 +26,12 @@
                         @csrf
                         <button class="border-2 border-gray-300 p-2 rounded-md shadow-lg w-[150px] h-[50px]" type="submit">Verify user</button>
                     </form>
+
+                    <form action="{{route('admin.kycRemove', $submitted->user_id)}}" method="POST">
+                        @csrf
+                        <button class="border-2 border-gray-300 p-2 rounded-md shadow-lg w-fit  h-[50px]" type="submit">Remove user request</button>
+                    </form>
+    
                 </div>
             </li>
         @endforeach

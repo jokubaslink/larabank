@@ -92,6 +92,7 @@ Route::get('/chat/fetch', function (Request $request) {
 
     return response()->json($chatMessages);
 })->middleware(['auth', 'verified']);
+Route::post('/admin/dashboard/kyc/{user_id}/remove',  [AdminController::class, 'kycRemove'])->middleware(['auth', 'verified', 'isAdmin'])->name('admin.kycRemove');
 /* ADMIN  */
 
 Route::get('/dashboard/advice', [ProfileController::class, 'showAdvice'])->middleware(['auth', 'verified', 'isKYCVerified'])->name('show.advice');

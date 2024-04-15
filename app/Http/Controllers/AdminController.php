@@ -92,4 +92,10 @@ class AdminController extends Controller
         return view('admin.transactions', compact('transactions'));
     }
 
+    public function kycRemove($user_id){
+        Verifications::where('user_id', $user_id)->delete();
+
+        return redirect('/admin/dashboard/kyc');
+    }
+
 }

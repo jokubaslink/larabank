@@ -14,6 +14,7 @@
 
     <script>
         // should we save the ai conversation?
+        // no
 
         btn.addEventListener('click', (event) => {
             event.preventDefault();

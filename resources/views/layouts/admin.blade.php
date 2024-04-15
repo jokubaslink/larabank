@@ -40,7 +40,7 @@
 
             ?>
 
-            <p class="text-red-500 text-xl font-bold"> Larabank Admin - {{ $currentRoute }} </p>
+            <p class="text-red-500 text-xl font-bold"> Larabank Admin </p>
 
             
 
