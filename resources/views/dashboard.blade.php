@@ -27,9 +27,9 @@
                         stocks</button></a>
             </div>
             <div class="flex flex-col sm:flex-row gap-2">
-                <a href="{{ route('profile.advice') }}"><button
+{{--                 <a href="{{ route('profile.advice') }}"><button
                         class="border-2 border-gray-300 p-2 rounded-md shadow-lg w-[200px] h-[50px]">Financial
-                        advice</button></a>
+                        advice</button></a> --}}
                 <a href="{{ route('profile.credit-card') }}"><button
                         class="border-2 border-gray-300 p-2 rounded-md shadow-lg w-[200px] h-[50px]">Digital credit
                         card</button></a>

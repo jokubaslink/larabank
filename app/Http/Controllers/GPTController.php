@@ -14,7 +14,7 @@ class GPTController extends Controller
 
     public function getAdvice(Request $request)
     {
-        /*         $response = Http::withHeaders([
+    /*     $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . config('services.openai.key'),
             'Content-Type' => 'application/json'
         ])->post('https://api.openai.com/v1/chat/completions', [
